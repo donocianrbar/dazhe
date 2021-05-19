@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>A1DC6A4F-6F24-4113-8B11-C5E5D57AB51D</string>
+	<key>IDESourceControlProjectName</key>
+	<string>DaZhePrivateHomeCuisineClient</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>DF713D94-0C70-4B35-B0B4-F65BDA3BCEAB</key>
+		<string>http://www.svnchina.com/svn/dazhe/DaZhePrivateHomeCuisineClient</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>DaZhePrivateHomeCuisineClient.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>DF713D94-0C70-4B35-B0B4-F65BDA3BCEAB</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>DF713D94-0C70-4B35-B0B4-F65BDA3BCEAB</key>
+		<string>http://www.svnchina.com/svn/dazhe</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>http://www.svnchina.com/svn/dazhe/DaZhePrivateHomeCuisineClient/DaZhePrivateHomeCuisineClient.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>DF713D94-0C70-4B35-B0B4-F65BDA3BCEAB</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>DF713D94-0C70-4B35-B0B4-F65BDA3BCEAB</string>
+			<key>IDESourceControlWCCName</key>
+			<string>DaZhePrivateHomeCuisineClient</string>
+		</dict>
+	</array>
+</dict>
+</plist>

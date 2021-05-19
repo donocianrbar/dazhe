@@ -1,0 +1,39 @@
+//
+//  DZWheeViewlTableViewCell.m
+//  DaZhePrivateHomeCuisineClient
+//
+//  Created by zouzhisheng on 14-12-11.
+//  Copyright (c) 2014年 zouzhisheng. All rights reserved.
+//
+
+#import "DZWheeViewlTableViewCell.h"
+@implementation DZWheeViewlTableViewCell
+
+- (void)awakeFromNib {
+    // Initialization code
+    self.backgroundColor=[UIColor colorWithHexString:@"ECECEC"];
+    self.contentView.backgroundColor=[UIColor colorWithHexString:@"ECECEC"];
+    self.selectionStyle=UITableViewCellSelectionStyleNone;
+    SGFocusImageItem *item1=[[SGFocusImageItem alloc] initWithTitle:nil image:nil imageUrl:@"http://photocdn.sohu.com/20131014/Img388132324_ss.jpg" tag:0];
+     SGFocusImageItem *item2=[[SGFocusImageItem alloc] initWithTitle:nil image:nil imageUrl:@"http://photocdn.sohu.com/20131014/Img388124287_ss.jpg" tag:0];
+     SGFocusImageItem *item3=[[SGFocusImageItem alloc] initWithTitle:nil image:nil imageUrl:@"http://photocdn.sohu.com/20110530/Img308866151_ss.jpg" tag:0];
+     SGFocusImageItem *item4=[[SGFocusImageItem alloc] initWithTitle:nil image:nil imageUrl:@"http://photocdn.sohu.com/20120618/Img345912681_ss.jpg" tag:0];
+     SGFocusImageItem *item5=[[SGFocusImageItem alloc] initWithTitle:nil image:nil imageUrl:@"http://photocdn.sohu.com/20131022/Img388684293_ss.jpg" tag:0];
+     SGFocusImageFrame *imageFrame = [[SGFocusImageFrame alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width,self.bounds.size.height-11)
+                                                                    delegate:self
+                                                             focusImageItems:item1, item2, item3, item4,item5, nil];
+    [self addSubview:imageFrame];
+    
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    [super setSelected:selected animated:animated];
+
+    // Configure the view for the selected state
+}
+#pragma mark -
+- (void)foucusImageFrame:(SGFocusImageFrame *)imageFrame didSelectItem:(SGFocusImageItem *)item
+{
+    NSLog(@"%@ tapped", item.title);
+}
+@end
