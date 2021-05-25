@@ -72,10 +72,10 @@
 {
     if (!_tabBarController) {
         NSMutableArray *itemsArray = [[NSMutableArray alloc] init] ;
-        NSArray *controllerArray = [NSArray arrayWithObjects:@"DZDiningRoomSearchNav",@"DZPrivateHomeCuisineNav",@"DZCommendedNav",@"DZAgioPreferentialNav",nil];//类名数组
-        NSArray *titleArray = [NSArray arrayWithObjects:@"餐厅查询",@"大哲私房菜",@"大哲推荐",@"折扣优惠", nil];//item标题数组
-        NSArray *normalImageArray = [NSArray arrayWithObjects:@"canting_chaxun.png",@"sifangcai.png",@"tuijian.png",@"zhekou.png", nil];//item 正常状态下的背景图片
-        NSArray *selectedImageArray = [NSArray arrayWithObjects:@"canting_chaxun_push.png", @"sifangcai_push.png",@"tuijian_push.png",@"zhekou_push.png",nil];//item被选中时的图片名称
+        NSArray *controllerArray = [NSArray arrayWithObjects:@"DZDiningRoomSearchNav",@"DZAgioPreferentialNav",@"DZCommendedNav",@"DZPrivateHomeCuisineNav",nil];//类名数组
+        NSArray *titleArray = [NSArray arrayWithObjects:@"餐厅查询",@"折扣优惠",@"大哲推荐",@"大哲私房菜", nil];//item标题数组
+        NSArray *normalImageArray = [NSArray arrayWithObjects:@"canting_chaxun.png",@"zhekou.png",@"tuijian.png",@"sifangcai.png", nil];//item 正常状态下的背景图片
+        NSArray *selectedImageArray = [NSArray arrayWithObjects:@"canting_chaxun_push.png", @"zhekou_push.png",@"tuijian_push.png",@"sifangcai_push.png",nil];//item被选中时的图片名称
         
         for (int i = 0; i< controllerArray.count; i++) {
             
