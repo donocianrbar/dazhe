@@ -24,6 +24,7 @@
 #import "BaseService+DZBaseService.h"
 #import "BaseService.h"
 #import "Jastor.h"
+#import "SDWebImage/UIImageView+WebCache.h"
 #define SharedAppDelegate ((DZAppDelegate *)[[UIApplication sharedApplication] delegate])
 //获取系统版本
 #define SYSTEM_VERSION ([[[UIDevice currentDevice] systemVersion] floatValue])

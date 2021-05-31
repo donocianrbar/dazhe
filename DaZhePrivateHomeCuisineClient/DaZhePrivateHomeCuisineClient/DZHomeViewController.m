@@ -13,8 +13,10 @@
 #import "DZAdvertisementTableViewCell.h"
 #import "DZDaZheTableViewCell.h"
 #import "DZHomeDataModel.h"
+#import "DZHeadTableViewCell.h"
 @interface DZHomeViewController (){
     int selectIndex;
+    NSMutableArray *dataArray;
 }
 
 @end
@@ -37,15 +39,33 @@
 {
     [super viewDidLoad];
     self.navigationController.navigationBarHidden=YES;
+    dataArray=[NSMutableArray array];
     [self loadSubView];
     [self loadHomeData];
     // Do any additional setup after loading the view.
 }
 -(void)loadHomeData{
     
-    NSDictionary *dir=[NSDictionary dictionaryWithObjectsAndKeys:@"bcastr",@"act",@"2",@"num", nil];
+    NSDictionary *dir=[NSDictionary dictionaryWithObjectsAndKeys:@"bcastr",@"act",@"4",@"num", nil];
     [[BaseService shareNetworkService] requestActivityParameters:dir DataSouce:nil RequestType:Request_HomePageInfo Block:^(__weak id data, NSError *error) {
         _homeDataModel=data;
+        [dataArray addObject:_homeDataModel.bcastrPicInfo];
+        [dataArray addObject:_homeDataModel.RestaurantInfo];
+        [dataArray addObject:@"nav"];
+        [dataArray addObject:@"head"];
+        if (_homeDataModel.ZheKouInfo.count>0) {
+            for (int i=0; i<_homeDataModel.ZheKouInfo.count; i++) {
+                DZZheKouInfoModel *model=_homeDataModel.ZheKouInfo[i];
+                [dataArray addObject:model];
+            }
+        }
+        if (_homeDataModel.bcastrPicInfo1.count>0) {
+            for (int i=0; i<_homeDataModel.bcastrPicInfo1.count; i++) {
+                DZAlternationItemModel *model=_homeDataModel.bcastrPicInfo1[i];
+                [dataArray addObject:model];
+            }
+        }
+       
         [_listView reloadData];
     }];
 
@@ -97,13 +117,13 @@
     if (!_homeNavView) {
         _homeNavView=[[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SYSTEM_VERSION>=7.0?44+20:44)];
         _homeNavView.backgroundColor=[UIColor colorWithHexString:@"FF9326"];
-        UIImageView *logoView=[[UIImageView alloc] initWithFrame:CGRectMake(10,SYSTEM_VERSION>=7.0?26:6, 137/2, 62/2)];
+        UIImageView *logoView=[[UIImageView alloc] initWithFrame:CGRectMake(10,SYSTEM_VERSION>=7.0?26:6, 189/2, 45/2)];
         logoView.image=[UIImage imageNamed:@"logo"];
         [_homeNavView addSubview:logoView];
         UIButton *searchBt=[UIButton buttonWithType:UIButtonTypeCustom];
         searchBt.frame=CGRectMake(0, 0, 397/2, 57/2);
         searchBt.left=logoView.right+10;
-        searchBt.top=logoView.top;
+        searchBt.top=logoView.top-2;
         [searchBt setBackgroundImage:IMG(@"search_bg") forState:UIControlStateNormal];
         [searchBt setTitle:@"搜一搜" forState:UIControlStateNormal];
         [searchBt addTarget:self action:@selector(searchAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -133,74 +153,71 @@
 #pragma mark-UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 6;
+    return dataArray.count;
 }
-
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.row) {
-        case  0:
-        {
-            static NSString *cellIdentifier=@"DZWheeViewlTableViewCell";
-            DZWheeViewlTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-            if (!cell) {
-                cell = [[[NSBundle mainBundle] loadNibNamed:@"DZWheeViewlTableViewCell"  owner:self options:nil] lastObject];
+    id obj=dataArray[indexPath.row];
+    if ([obj isKindOfClass:[NSArray class]]) {
+        NSArray *objArray=obj;
+        if (objArray.count>0) {
+            if ([objArray[0] isKindOfClass:[DZAlternationItemModel class]]) {
+                DZAlternationItemModel *modle=objArray[0];
+                if ([modle.groupname isEqualToString:@"mobile"]) {
+                     //轮播图
+                    static NSString *cellIdentifier=@"DZWheeViewlTableViewCell";
+                    DZWheeViewlTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+                    if (!cell) {
+                        cell = [[[NSBundle mainBundle] loadNibNamed:@"DZWheeViewlTableViewCell"  owner:self options:nil] lastObject];
+                    }
+                    [cell loadData:_homeDataModel.bcastrPicInfo];
+                    return cell;
+                }
+            }else if ([objArray[0] isKindOfClass:[DZRestaurantinfoModel class]]){
+                static NSString *cellIdentifier=@"DZRecommendTableViewCell";
+                DZRecommendTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+                if (!cell) {
+                    cell = [[[NSBundle mainBundle] loadNibNamed:@"DZRecommendTableViewCell"  owner:self options:nil] lastObject];
+                }
+                [cell loadData:_homeDataModel.RestaurantInfo];
+                return cell;
             }
-            [cell loadData:_homeDataModel.bcastrPicInfo];
-            return cell;
         }
-            break;
-        case  1:
-        {
-            static NSString *cellIdentifier=@"DZRecommendTableViewCell";
-            DZRecommendTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-            if (!cell) {
-                cell = [[[NSBundle mainBundle] loadNibNamed:@"DZRecommendTableViewCell"  owner:self options:nil] lastObject];
-            }
-            return cell;
-  
+    }else if ([obj isEqual:@"nav"]){
+        static NSString *cellIdentifier=@"DZNavTableViewCell";
+        DZNavTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if (!cell) {
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"DZNavTableViewCell"  owner:self options:nil] lastObject];
         }
-            break;
-        case  2:
-        {
-            static NSString *cellIdentifier=@"DZNavTableViewCell";
-            DZNavTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-            if (!cell) {
-                cell = [[[NSBundle mainBundle] loadNibNamed:@"DZNavTableViewCell"  owner:self options:nil] lastObject];
-            }
-            return cell;
-            
+        return cell;
+    }else if ([obj isEqual:@"head"]){
+        static NSString *cellIdentifier=@"DZHeadTableViewCell";
+        DZHeadTableViewCell*cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if (!cell) {
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"DZHeadTableViewCell"  owner:self options:nil] lastObject];
         }
-            break;
-        case  3:
-        {
-            static NSString *cellIdentifier=@"DZDaZheTableViewCell";
-            DZDaZheTableViewCell*cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-            if (!cell) {
-                cell = [[[NSBundle mainBundle] loadNibNamed:@"DZDaZheTableViewCell"  owner:self options:nil] lastObject];
-            }
-            return cell;
+        return cell;
+    }else if ([obj isKindOfClass:[DZZheKouInfoModel class]]){
+        static NSString *cellIdentifier=@"DZDaZheTableViewCell";
+        DZDaZheTableViewCell*cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if (!cell) {
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"DZDaZheTableViewCell"  owner:self options:nil] lastObject];
+        }
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        [cell loadData:obj];
+        return cell;
+    }else if([obj isKindOfClass:[DZAlternationItemModel class]]){
+        //底部广告
+        DZAlternationItemModel *modle=obj;
+        static NSString *cellIdentifier=@"DZAdvertisementTableViewCell";
+        DZAdvertisementTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if (!cell) {
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"DZAdvertisementTableViewCell"  owner:self options:nil] lastObject];
+        }
+        [cell loadImageUrlStr:modle.link];
+        return cell;
 
-            
-        }
-            break;
-        case  4:
-        case  5:
-        {
-            static NSString *cellIdentifier=@"DZAdvertisementTableViewCell";
-            DZAdvertisementTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-            if (!cell) {
-                cell = [[[NSBundle mainBundle] loadNibNamed:@"DZAdvertisementTableViewCell"  owner:self options:nil] lastObject];
-            }
-            return cell;
-            
-            
-        }
-            break;
-        default:
-            break;
     }
     
     return nil;
@@ -209,33 +226,43 @@
 #pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.row) {
-        case 0:
-            return 161;
-            break;
-        case 1:
-            return 101;
-            break;
-        case 2:
-            return 101;
-            break;
-        case 3:
-            return 119;
-            break;
-        case 4:
-            return 101;
-            break;
-            
-            
-        default:
-            break;
+    id obj=dataArray[indexPath.row];
+    if ([obj isKindOfClass:[NSArray class]]) {
+        NSArray *objArray=obj;
+        if (objArray.count>0) {
+            if ([objArray[0] isKindOfClass:[DZAlternationItemModel class]]) {
+                DZAlternationItemModel *modle=objArray[0];
+                if ([modle.groupname isEqualToString:@"mobile"]) {
+                    return 161;
+                }
+            }else if ([objArray[0] isKindOfClass:[DZRestaurantinfoModel class]]){
+                return 274/2;
+            }
+        }
+    }else if ([obj isEqual:@"nav"]){
+        return 101;
+        
+    }else if ([obj isEqual:@"head"]){
+        return 30;
+        
+    }else if ([obj isKindOfClass:[DZZheKouInfoModel class]]){
+        return 94;
+    
+    }else if([obj isKindOfClass:[DZAlternationItemModel class]]){
+       
+        return 236/2;
     }
-    return 101;
+    return 0;
 
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
   
+}
+-(void)tableView:(UITableView*)tableView  willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath
+{
+    [cell setBackgroundColor:[UIColor clearColor]];
+    
 }
 /*
 #pragma mark - Navigation

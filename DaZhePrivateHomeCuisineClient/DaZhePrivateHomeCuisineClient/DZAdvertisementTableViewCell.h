@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface DZAdvertisementTableViewCell : UITableViewCell
-
+@property (weak, nonatomic) IBOutlet UIImageView *backImageView;
+-(void)loadImageUrlStr:(NSString *)urlStr;
 @end

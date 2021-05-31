@@ -22,5 +22,7 @@
 
     // Configure the view for the selected state
 }
-
+-(void)loadImageUrlStr:(NSString *)urlStr{
+    [self.backImageView sd_setImageWithURL: [NSURL URLWithString:[NSString stringWithFormat:@"%@/%@",API_DOMAIN,urlStr]]];
+}
 @end

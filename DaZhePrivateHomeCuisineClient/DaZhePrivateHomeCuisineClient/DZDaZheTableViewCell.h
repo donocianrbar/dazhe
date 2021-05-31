@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "DZHomeDataModel.h"
 @interface DZDaZheTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (weak, nonatomic) IBOutlet UIView *lineView;
+@property (weak, nonatomic) IBOutlet UIImageView *dinnerImageView;
+@property (weak, nonatomic) IBOutlet UILabel *namelabel;
 
+@property (weak, nonatomic) IBOutlet UILabel *addressLabel;
+@property (weak, nonatomic) IBOutlet UILabel *telLabel;
+-(void)loadData:(DZZheKouInfoModel*)model;
 @end

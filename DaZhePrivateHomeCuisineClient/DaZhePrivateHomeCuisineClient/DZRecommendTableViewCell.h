@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "DZHomeDataModel.h"
 @interface DZRecommendTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageview;
+@property (weak, nonatomic) IBOutlet UIView *lineView;
+@property (weak, nonatomic) IBOutlet UIScrollView *backScrollow;
+-(void)loadData:(NSArray *)dataArray;
 @end

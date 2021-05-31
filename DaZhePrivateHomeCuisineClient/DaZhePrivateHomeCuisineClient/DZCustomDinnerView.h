@@ -1,5 +1,5 @@
 //
-//  DZHeadTableViewCell.h
+//  DZCustomDinnerView.h
 //  DaZhePrivateHomeCuisineClient
 //
 //  Created by zouzhisheng on 15/2/3.
@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DZHeadTableViewCell : UITableViewCell
-
-@property (weak, nonatomic) IBOutlet UIView *lineView;
+@interface DZCustomDinnerView : UIView
+-(id)initWithFrame:(CGRect)frame ImageView:(NSString *)imageUrl Title:(NSString *)title;
 @end
