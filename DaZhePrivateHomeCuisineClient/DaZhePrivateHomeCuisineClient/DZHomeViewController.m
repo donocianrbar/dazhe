@@ -14,6 +14,7 @@
 #import "DZDaZheTableViewCell.h"
 #import "DZHomeDataModel.h"
 #import "DZHeadTableViewCell.h"
+#import "DZDinningDetailViewController.h"
 @interface DZHomeViewController (){
     int selectIndex;
     NSMutableArray *dataArray;
@@ -257,7 +258,11 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  
+       id obj=dataArray[indexPath.row];
+    if ([obj isKindOfClass:[DZZheKouInfoModel class]]) {
+        DZDinningDetailViewController *detailVC=[[DZDinningDetailViewController alloc] init];
+        [self.navigationController pushViewController:detailVC animated:YES];
+    }
 }
 -(void)tableView:(UITableView*)tableView  willDisplayCell:(UITableViewCell*)cell forRowAtIndexPath:(NSIndexPath*)indexPath
 {
