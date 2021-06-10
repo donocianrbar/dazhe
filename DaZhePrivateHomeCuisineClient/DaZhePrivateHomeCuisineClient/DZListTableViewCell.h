@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "DZArticlesInfoModel.h"
 @interface DZListTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *headImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-
+-(void)loaddata:(DZArticlesInfoSubModel *)model;
 @end

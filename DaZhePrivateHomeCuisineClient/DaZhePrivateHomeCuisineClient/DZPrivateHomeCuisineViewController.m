@@ -7,6 +7,7 @@
 //
 
 #import "DZPrivateHomeCuisineViewController.h"
+#import "DZArticlesInfoModel.h"
 @implementation DZPrivateHomeCuisineNav
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -30,7 +31,9 @@
 
 @end
 
-@interface DZPrivateHomeCuisineViewController ()
+@interface DZPrivateHomeCuisineViewController (){
+    NSMutableArray *dataArray;
+}
 
 @end
 
@@ -49,10 +52,25 @@
 {
     [super viewDidLoad];
     self.navigationController.navigationBarHidden=YES;
+    dataArray=[NSMutableArray array];
     [self navView];
     [self addTitle:@"大哲私房菜"];
-    [self loadSubView];
+    [self loadData];
     // Do any additional setup after loading the view.
+}
+-(void)loadData{
+    NSDictionary *paramDir=[NSDictionary dictionaryWithObjectsAndKeys:@"index",@"act", nil];
+    [[BaseService shareNetworkService] requestActivityParameters:paramDir DataSouce:nil RequestType:Request_DaZheIndexInfo Block:^(__weak id data, NSError *error) {
+        if (!error) {
+            DZArticlesInfoModel *model=data;
+            if (model.SiFangCaiHomeInfo.count>0) {
+                for (int i=0; i<model.SiFangCaiHomeInfo.count; i++) {
+                    [dataArray addObject:model.SiFangCaiHomeInfo[i]];
+                }
+                [self loadSubView];
+            }
+        }
+    }];
 }
 -(void)loadSubView
 {
@@ -81,40 +99,60 @@
 #pragma mark-UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 6;
+    return dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row==0) {
-        static NSString *cellIdentifier=@"DZHeadTableViewCell";
-        DZHeadTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        if (!cell) {
-            cell = [[[NSBundle mainBundle] loadNibNamed:@"DZHeadTableViewCell"  owner:self options:nil] lastObject];
-        }
-        cell.selectionStyle=UITableViewCellSelectionStyleNone;
-        return cell;
-  
-    }else{
+    id obj=dataArray[indexPath.row];
+    if ([obj isKindOfClass:[DZArticlesInfoSubModel class]]) {
         static NSString *cellIdentifier=@"DZListTableViewCell";
         DZListTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if (!cell) {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"DZListTableViewCell"  owner:self options:nil] lastObject];
         }
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
+        [cell loaddata:obj];
         return cell;
- 
     }
+    
+    
+    
+//    if (indexPath.row==0) {
+//        static NSString *cellIdentifier=@"DZHeadTableViewCell";
+//        DZHeadTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+//        if (!cell) {
+//            cell = [[[NSBundle mainBundle] loadNibNamed:@"DZHeadTableViewCell"  owner:self options:nil] lastObject];
+//        }
+//        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+//        return cell;
+//  
+//    }else{
+//        static NSString *cellIdentifier=@"DZListTableViewCell";
+//        DZListTableViewCell *cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+//        if (!cell) {
+//            cell = [[[NSBundle mainBundle] loadNibNamed:@"DZListTableViewCell"  owner:self options:nil] lastObject];
+//        }
+//        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+//        return cell;
+// 
+//    }
+    return nil;
 }
 
 #pragma mark-UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row==0) {
-        return 180;
-    }else{
+     id obj=dataArray[indexPath.row];
+    if ([obj isKindOfClass:[DZArticlesInfoSubModel class]]) {
         return 90;
     }
+//    if (indexPath.row==0) {
+//        return 180;
+//    }else{
+//        return 90;
+//    }
+    return 0;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
