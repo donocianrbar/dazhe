@@ -49,27 +49,36 @@
     
     NSDictionary *dir=[NSDictionary dictionaryWithObjectsAndKeys:@"bcastr",@"act",@"4",@"num", nil];
     [[BaseService shareNetworkService] requestActivityParameters:dir DataSouce:nil RequestType:Request_HomePageInfo Block:^(__weak id data, NSError *error) {
-        _homeDataModel=data;
-        [dataArray addObject:_homeDataModel.bcastrPicInfo];
-        [dataArray addObject:_homeDataModel.RestaurantInfo];
-        [dataArray addObject:@"nav"];
-        [dataArray addObject:@"head"];
-        if (_homeDataModel.ZheKouInfo.count>0) {
-            for (int i=0; i<_homeDataModel.ZheKouInfo.count; i++) {
-                DZZheKouInfoModel *model=_homeDataModel.ZheKouInfo[i];
-                [dataArray addObject:model];
+        if (!error) {
+            [self loadAdviceData];
+            _homeDataModel=data;
+            [dataArray addObject:_homeDataModel.bcastrPicInfo];
+            [dataArray addObject:_homeDataModel.RestaurantInfo];
+            [dataArray addObject:@"nav"];
+            [dataArray addObject:@"head"];
+            if (_homeDataModel.ZheKouInfo.count>0) {
+                for (int i=0; i<_homeDataModel.ZheKouInfo.count; i++) {
+                    DZZheKouInfoModel *model=_homeDataModel.ZheKouInfo[i];
+                    [dataArray addObject:model];
+                }
             }
-        }
-        if (_homeDataModel.bcastrPicInfo1.count>0) {
-            for (int i=0; i<_homeDataModel.bcastrPicInfo1.count; i++) {
-                DZAlternationItemModel *model=_homeDataModel.bcastrPicInfo1[i];
-                [dataArray addObject:model];
+            if (_homeDataModel.bcastrPicInfo1.count>0) {
+                for (int i=0; i<_homeDataModel.bcastrPicInfo1.count; i++) {
+                    DZAlternationItemModel *model=_homeDataModel.bcastrPicInfo1[i];
+                    [dataArray addObject:model];
+                }
             }
+            
+            [_listView reloadData];
         }
-       
-        [_listView reloadData];
     }];
 
+}
+-(void)loadAdviceData{
+    NSDictionary *dir=[NSDictionary dictionaryWithObjectsAndKeys:@"advice",@"act",@"1",@"cityid", nil];
+    [[BaseService shareNetworkService] requestActivityParameters:dir DataSouce:nil RequestType:Request_GetAdviceInfo Block:^(__weak id data, NSError *error) {
+        
+    }];
 }
 -(void)loadSubView
 {

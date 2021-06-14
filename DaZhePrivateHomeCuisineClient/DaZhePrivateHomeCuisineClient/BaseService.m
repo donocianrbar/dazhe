@@ -227,6 +227,7 @@
         // 返回data非空情况下，才解析为字典
         if (responseObject) {
             jsonDict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableLeaves error:&jsonParseError];
+           NSString *str = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
         }
       //  NET_INFO(@":::Request=%@\nResult=%@", operation.request.URL, jsonDict);
         

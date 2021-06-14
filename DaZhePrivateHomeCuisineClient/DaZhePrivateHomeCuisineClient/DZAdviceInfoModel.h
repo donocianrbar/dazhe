@@ -15,4 +15,5 @@
 @interface DZAdviceInfoSubModel : Jastor
 @property(nonatomic,copy)NSString *title;
 @property(nonatomic,copy)NSString *content;
+@property(nonatomic,copy)NSString *pic;
 @end
